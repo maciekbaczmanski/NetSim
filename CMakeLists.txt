@@ -3,4 +3,4 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(komi main.cpp)
+add_executable(NetSim main.cpp)
