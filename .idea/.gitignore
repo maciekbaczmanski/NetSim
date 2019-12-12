@@ -4,4 +4,4 @@
 /modules.xml
 /NetSim.iml
 /vcs.xml
-.cmake-build-debug/
+cmake-build-debug/
