@@ -1,9 +1,6 @@
+#include <iostream>
 
 int main(){
+    std::cout<<"TEST";
 return 0;
-// NIE JESTEM BALBINA MOLERUS
-
-/asd
-
-//ggghtdfnbjhmvbmhbljyjvouv
 }
