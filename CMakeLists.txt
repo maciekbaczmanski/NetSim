@@ -3,12 +3,13 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(NetSim main.cpp)
 add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors)
 
 include_directories(
         include
+        src
 )
 
+add_executable(NetSim main.cpp)
 # == Unit testing using Google Testing Framework ==
 
