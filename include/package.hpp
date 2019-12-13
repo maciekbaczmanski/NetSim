@@ -2,12 +2,13 @@
 #define NETSIM_PACKAGE_HPP
 
 #include <deque>
-
+#include <algorithm>
 #include "types.hpp"
 
 class Package{
 public:
     Package();
+    ~Package();
     Package(Package&& other);
     Package& operator = (Package&& other);
     ElementID get_id() const { return ID; };

@@ -3,7 +3,15 @@
 std::deque<ElementID> Package::used_IDs;
 
 Package::Package() {
+    this->assign_ID();
+}
 
+Package::~Package() {
+    std::deque<ElementID>::iterator iter = find(used_IDs.begin(),used_IDs.end(),ID);
+
+    if(iter != used_IDs.end()){
+        used_IDs.erase(iter);
+    }
 }
 
 Package::Package(Package &&other) {
@@ -30,4 +38,7 @@ void Package::assign_ID(){
         newID = newID + 1;
     }
     ID = newID;
+    used_IDs.push_back(ID);
 }
+
+
