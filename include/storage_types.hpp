@@ -10,10 +10,10 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    virtual void push(Package&&) = 0;
+    virtual void push(Package&& pack)= 0;
     virtual bool empty() = 0;
     virtual size_type size() = 0;
-    using package_it = std::deque<Package>::const_iterator;
+    using packageIt = std::deque<Package>::const_iterator;
 
 protected:
     std::deque<Package> queue;
@@ -28,9 +28,12 @@ public:
 
 class PackageQueue: public IPackageQueue{
 public:
+    PackageQueue(PackageQueueType type){ queueType = type; };
+    void push(Package&& pack){ queue.push_back(std::move(pack)); };
+    bool empty(){ return queue.empty(); };
+    size_type size() { return size_type(queue.size()); };
+    Package pop();
+    PackageQueueType get_queue_type(){ return queueType; };
 
-//PackageQueue(PackageQueueType type): queueType(type){};
-//error: class 'PackageQueue' does not have any field named 'queueType'
-// WHY THO? dziedzicze go z IPackageStockpile
 };
 #endif //NETSIM_STORAGE_TYPES_HPP
