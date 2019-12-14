@@ -9,8 +9,8 @@ class Package{
 public:
     Package();
     ~Package();
-    Package(Package&& other);
-    Package& operator = (Package&& other);
+    Package(Package&&) = default;
+    Package& operator = (Package&&) = default;
     ElementID get_id() const { return ID; };
 private:
     ElementID ID;

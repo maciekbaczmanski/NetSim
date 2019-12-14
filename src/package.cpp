@@ -14,22 +14,8 @@ Package::~Package() {
     }
 }
 
-Package::Package(Package &&other) {
-    other.get_id();
-}
-
-Package &Package::operator=(Package &&other) {
-    other.get_id();
-    return *this;
-}
-
 bool Package::is_ID_used(const ElementID &newID){
-    for(const auto& id: used_IDs){
-        if(newID == id){
-            return true;
-        }
-    }
-    return false;
+    return find(used_IDs.begin(), used_IDs.end(), newID) != used_IDs.end();
 }
 
 void Package::assign_ID(){
