@@ -26,19 +26,30 @@ Package::Package(Package &&other) {
     other.via_rvalue = true;
 }
 
+
 bool Package::is_ID_used(const ElementID &newID){
-    return find(used_IDs.begin(), used_IDs.end(), newID) != used_IDs.end();
+    return used_IDs.find(newID) != used_IDs.end();
+    //return find(used_IDs.begin(), used_IDs.end(), newID) != used_IDs.end();
 }
 
 void Package::assign_ID(){
     ElementID newID = 1;
+    /**
     while(is_ID_used(newID)){
         newID = newID + 1;
     }
+    */
+    if(is_ID_used(newID)){
+        newID = *free_IDs.begin();
+    }
+
     ID = newID;
     used_IDs.emplace(ID);
     free_IDs.erase(ID);
+    free_IDs.emplace(ID+1);
 }
+
+
 
 
 
