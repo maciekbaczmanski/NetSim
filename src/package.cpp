@@ -14,9 +14,11 @@ Package::~Package() {
        // used_IDs.erase(iter);
     }
      */
+    if(via_rvalue == false){
+        used_IDs.erase(ID);
+        free_IDs.emplace(ID);
+    }
 
-    used_IDs.erase(ID);
-    free_IDs.emplace(ID);
 }
 
 bool Package::is_ID_used(const ElementID &newID){
