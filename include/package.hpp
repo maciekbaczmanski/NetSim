@@ -10,12 +10,7 @@ class Package{
 public:
     Package();
     ~Package();
-    Package(Package&& other){
-        //used_IDs = std::move(other.used_IDs);
-        //free_IDs = std::move(other.free_IDs);
-        ID = std::move(other.ID);
-        other.via_rvalue = true;
-    };
+    Package(Package&& other);
     Package& operator = (Package&&) = default;
     ElementID get_id() const { return ID; };
 private:

@@ -21,6 +21,11 @@ Package::~Package() {
 
 }
 
+Package::Package(Package &&other) {
+    ID = std::move(other.ID);
+    other.via_rvalue = true;
+}
+
 bool Package::is_ID_used(const ElementID &newID){
     return find(used_IDs.begin(), used_IDs.end(), newID) != used_IDs.end();
 }
@@ -34,6 +39,8 @@ void Package::assign_ID(){
     used_IDs.emplace(ID);
     free_IDs.erase(ID);
 }
+
+
 
 
 
