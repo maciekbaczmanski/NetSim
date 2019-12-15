@@ -19,3 +19,4 @@ Package PackageQueue::pop() {
     }
     return Package();
 }
+

@@ -29,7 +29,8 @@ public:
 class PackageQueue: public IPackageQueue{
 public:
     PackageQueue(PackageQueueType type){ queueType = type; };
-    void push(Package&& pack){ queue.push_back(std::move(pack)); };
+    void push(Package&& pack){
+        queue.emplace_back(std::move(pack)); };
     bool empty(){ return queue.empty(); };
     size_type size() { return size_type(queue.size()); };
     Package pop();
