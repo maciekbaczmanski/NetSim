@@ -32,6 +32,11 @@ bool Package::is_ID_used(const ElementID &newID){
     //return find(used_IDs.begin(), used_IDs.end(), newID) != used_IDs.end();
 }
 
+Package &Package::operator=(Package &&other) {
+    *this = std::move(other);
+    return *this;
+}
+
 void Package::assign_ID(){
     ElementID newID = 1;
     /**
@@ -48,6 +53,8 @@ void Package::assign_ID(){
     free_IDs.erase(ID);
     free_IDs.emplace(ID+1);
 }
+
+
 
 
 

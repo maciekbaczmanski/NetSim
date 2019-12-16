@@ -20,6 +20,7 @@ int main(){
     PQ.push(Package());
     PQ.push(Package());
 
+    Package test = Package();
 
     std::cout<< "Done" <<std::endl;
 

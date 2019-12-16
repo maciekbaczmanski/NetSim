@@ -11,7 +11,7 @@ public:
     Package();
     ~Package();
     Package(Package&& other);
-    Package& operator = (Package&& other) = default;
+    Package& operator = (Package&& other);
     ElementID get_id() const { return ID; };
 private:
     ElementID ID;
