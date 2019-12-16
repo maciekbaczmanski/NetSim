@@ -15,13 +15,18 @@ int main(){
     std::cout<< p3->get_id() <<std::endl;
     */
 
-    PackageQueue PQ(PackageQueueType::FIFO);
+    PackageQueue PQ(PackageQueueType::LIFO);
     PQ.push(Package());
     PQ.push(Package());
     PQ.push(Package());
 
-    Package test = Package();
-
+    Package test = PQ.pop();
+    test = PQ.pop();
+    test = PQ.pop();
+    std::cout<< PQ.size() <<std::endl;
+    std::cout<< PQ.empty() <<std::endl;
+    PackageQueueType t = PQ.get_queue_type();
+    t =t;
     std::cout<< "Done" <<std::endl;
 
 return 0;
