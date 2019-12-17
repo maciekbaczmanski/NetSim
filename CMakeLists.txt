@@ -3,7 +3,7 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors)
+add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-deprecated-declarations)
 
 include_directories(
         include)
