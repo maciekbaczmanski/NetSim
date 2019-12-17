@@ -20,7 +20,7 @@ TEST(PackageTest, IDassignmentManual){
     delete p3;
 }
 
-TEST(PackageTest, PopQueueFIFO){
+TEST(PackageQueueTest, PopQueueFIFO){
     PackageQueue PQ_FIFO(PackageQueueType::FIFO);
     PQ_FIFO.push(Package());
     PQ_FIFO.push(Package());
@@ -33,7 +33,7 @@ TEST(PackageTest, PopQueueFIFO){
     ASSERT_EQ(temp2.get_id(),2);
 }
 
-TEST(PackageTest, PopQueueLIFO){
+TEST(PackageQueueTest, PopQueueLIFO){
     PackageQueue PQ_LIFO(PackageQueueType::LIFO);
     PQ_LIFO.push(Package());
     PQ_LIFO.push(Package());
