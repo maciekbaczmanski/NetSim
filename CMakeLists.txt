@@ -11,5 +11,5 @@ include_directories(
 )
 
 add_executable(NetSim main.cpp src/package.cpp include/package.hpp src/storage_types.cpp include/storage_types.hpp include/types.hpp)
-# == Unit testing using Google Testing Framework ==
+
 
