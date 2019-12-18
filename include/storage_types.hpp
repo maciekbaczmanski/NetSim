@@ -10,10 +10,16 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
+    using packageIt = std::deque<Package>::const_iterator;
     virtual void push(Package&& pack)= 0;
     virtual bool empty() = 0;
     virtual size_type size() = 0;
-    using packageIt = std::deque<Package>::const_iterator;
+    virtual packageIt begin() = 0;
+    virtual const packageIt cbegin() = 0;
+    virtual packageIt end()= 0;
+    virtual const packageIt cend() = 0;
+
+
 
 protected:
     std::deque<Package> queue;
@@ -34,6 +40,10 @@ public:
     size_type size() { return size_type(queue.size()); };
     Package pop();
     PackageQueueType get_queue_type(){ return queueType; };
+    packageIt begin() { return queue.begin(); };
+    const packageIt cbegin() { return queue.cbegin(); };
+    packageIt end() { return queue.end(); };
+    const packageIt cend() { return queue.cend(); };
 
 };
 #endif //NETSIM_STORAGE_TYPES_HPP

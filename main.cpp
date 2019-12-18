@@ -19,15 +19,16 @@ int main(){
     PQ.push(Package());
     PQ.push(Package());
     PQ.push(Package());
-
+    
     Package test = PQ.pop();
     test = PQ.pop();
     test = PQ.pop();
     std::cout<< PQ.size() <<std::endl;
     std::cout<< PQ.empty() <<std::endl;
     PackageQueueType t = PQ.get_queue_type();
-    t =t;
+    t = t;
     std::cout<< "Done" <<std::endl;
+
 
 return 0;
 }
