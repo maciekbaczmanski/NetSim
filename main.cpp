@@ -25,8 +25,7 @@ int main(){
     test = PQ.pop();
     std::cout<< PQ.size() <<std::endl;
     std::cout<< PQ.empty() <<std::endl;
-    PackageQueueType t = PQ.get_queue_type();
-    t = t;
+
     std::cout<< "Done" <<std::endl;
 
 

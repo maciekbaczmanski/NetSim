@@ -3,4 +3,5 @@
 
 using ElementID = unsigned int;
 using size_type = unsigned int;
+// TODO: add Time, TimeOffset i ProbabilityGenerator
 #endif //NETSIM_TYPES_HPP
