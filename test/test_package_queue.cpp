@@ -1,7 +1,30 @@
 #include "gtest/gtest.h"
 
 #include "storage_types.hpp"
+/* TODO:
+class PackageSender:
+    wysyłanie półproduktu: czy po wysłaniu bufor jest pusty?
 
+
+class ReceiverPreferences
+    dodawanie/usuwanie odbiorcy: skalowanie prawdopodobieństwa
+
+    wybór odbiorcy: czy odpowiedni wybrany, gdy damy “zmockowany” generator liczb losowych?
+
+
+class Ramp
+    dostawa: czy dostawa odbywa się we właściwej turze? czy półprodukt trafia od razu do bufora?
+
+
+class Worker
+    odbiór półproduktu: czy poprawnie wstawiony do kolejki?
+
+    wykonywanie pracy: czy robotnik przetwarza półprodukt odpowiednią liczbę tur? czy przekazuje dalej odpowiedni półprodukt?
+
+
+class Storehouse
+    odbiór półproduktu: czy poprawnie wstawiony do magazynu?
+ */
 TEST(PackageTest, IDassignmentManual){
 
     Package* p1 = new Package();
