@@ -10,6 +10,7 @@ include_directories(
 
 set(SOURCE_FILES
         src/package.cpp
+        src/nodes.cpp
         src/storage_types.cpp
         )
 
