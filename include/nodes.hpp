@@ -7,6 +7,7 @@
 #include <iostream>
 #include <optional>
 #include <memory>
+#include <map>
 class IPackageReceiver
 {
 public:
@@ -23,9 +24,12 @@ public:
 class ReceiverPreferences
 {
 public:
-    void add_receiver(IPackageReceiver* r);
+    void add_receiver(IPackageReceiver* r, double preference);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
+
+private:
+    std::map <IPackageReceiver*,double> mapofreceivers;
 };
 
 class PackageSender
