@@ -2,7 +2,7 @@
 
 #include "storage_types.hpp"
 int main(){
-    /**
+
     Package* p1 = new Package();
     Package* p2 = new Package();
 
@@ -13,7 +13,7 @@ int main(){
     delete p2;
     Package* p3 = new Package();
     std::cout<< p3->get_id() <<std::endl;
-    */
+
 
     PackageQueue PQ(PackageQueueType::LIFO);
     PQ.push(Package());

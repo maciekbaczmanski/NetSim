@@ -58,9 +58,9 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
         distribution=distribution+pair.second;
         if(randnmb<distribution)
             return pair.first;
-        if (randnmb==1.0 and distribution==1.0)
-            return pair.first;
     }
+    auto it=mapofreceivers.end();
+    return it->first;
 }
 
 void PackageSender::push_package(Package &&package)
@@ -76,7 +76,47 @@ std::optional<Package> PackageSender::get_sending_buffer()
     return returnbucket;
 }
 
+TimeOffset Ramp::get_delivery_interval()
+{
+    return di_;
+}
 
+ElementID Ramp::get_id()
+{
+    return id_;
+}
+
+void Ramp::deliver_goods(Time t)
+{
+    if(t%di_==0)
+    {
+        Package p;
+        push_package(std::move(p));
+    }
+}
+
+Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q)
+{
+    id_=id;
+    pd_=pd;
+    queue=std::move(q);
+    starttime=0;
+}
+
+void Worker::do_work(Time t)
+{
+    std::optional<Package> oldq=get_sending_buffer();
+    if (t-starttime==pd_ || !oldq)
+    {
+        if(!queue->empty())
+        {
+            Package q=queue->pop();
+            push_package(std::move(q));
+            starttime=t;
+        }
+
+    }
+}
 
 
 

@@ -25,8 +25,6 @@ public:
 class ReceiverPreferences
 {
     using preferences_t = std::map<IPackageReceiver*, double>;
-    using const_iterator = preferences_t::const_iterator;
-    using iterator = preferences_t::iterator;
 public:
     ReceiverPreferences(std::function<double()>  generator_function=random_generator): generator_(generator_function){}
     void add_receiver(IPackageReceiver* r, double preference);
@@ -34,7 +32,7 @@ public:
     IPackageReceiver* choose_receiver();
 
 private:
-    std::map <IPackageReceiver*,double> mapofreceivers;
+    preferences_t mapofreceivers;
     std::function<double()> generator_;
 };
 
@@ -55,10 +53,14 @@ private:
 class Ramp : public PackageSender
 {
 public:
-    Ramp(ElementID id, TimeOffset di);
+    Ramp(ElementID id, TimeOffset di):id_(id), di_(di){}
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval();
     ElementID get_id();
+
+private:
+    ElementID id_;
+    TimeOffset di_;
 };
 
 class Worker : public PackageSender
@@ -68,6 +70,11 @@ public:
     void do_work(Time t);
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
+private:
+    ElementID id_;
+    TimeOffset pd_;
+    std::unique_ptr<PackageQueue> queue;
+    Time starttime;
 };
 
 
