@@ -2,10 +2,13 @@
 
 //TODO: funkcjonalnosci klas z nodes.hpp
 
+
+
+
 void ReceiverPreferences::add_receiver(IPackageReceiver *r, double preference=1)
 {
-    double sum=0;
-    double newsum=0;
+    double sum=0.0;
+    double newsum=0.0;
     mapofreceivers[r]=preference;
     for (const auto &pair : mapofreceivers)
     {
@@ -16,18 +19,18 @@ void ReceiverPreferences::add_receiver(IPackageReceiver *r, double preference=1)
         mapofreceivers[pair.first]=mapofreceivers[pair.first]/sum;
         newsum=newsum+pair.second;
     }
-    if(newsum!=1)
+    if(newsum!=1.0)
     {
-        mapofreceivers[r]=mapofreceivers[r]+1-newsum;
+        mapofreceivers[r]=mapofreceivers[r]+1.0-newsum;
     }
-
 }
+
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
 {
-    double sum=0;
+    double sum=0.0;
     IPackageReceiver* memory=r;
-    double newsum=0;
+    double newsum=0.0;
     mapofreceivers.erase(r);
     for (const auto &pair : mapofreceivers)
     {
@@ -39,14 +42,26 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
         newsum=newsum+pair.second;
         memory=pair.first;
     }
-    if(newsum!=1)
+    if(newsum!=1.0)
     {
-        mapofreceivers[memory]=mapofreceivers[memory]+1-newsum;
+        mapofreceivers[memory]=mapofreceivers[memory]+1.0-newsum;
     }
-
-
 }
 
+
+IPackageReceiver* ReceiverPreferences::choose_receiver()
+{
+    double randnmb=generator_();
+    double distribution=0.0;
+    for (const auto &pair: mapofreceivers)
+    {
+        distribution=distribution+pair.second;
+        if(randnmb<distribution)
+            return pair.first;
+        if (randnmb==1.0 and distribution==1.0)
+            return pair.first;
+    }
+}
 
 
 

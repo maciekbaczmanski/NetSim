@@ -8,6 +8,7 @@
 #include <optional>
 #include <memory>
 #include <map>
+#include <functional>
 class IPackageReceiver
 {
 public:
@@ -23,13 +24,18 @@ public:
 
 class ReceiverPreferences
 {
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
+    using iterator = preferences_t::iterator;
 public:
+    ReceiverPreferences(std::function<double()>  generator_function=random_generator): generator_(generator_function){}
     void add_receiver(IPackageReceiver* r, double preference);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
 
 private:
     std::map <IPackageReceiver*,double> mapofreceivers;
+    std::function<double()> generator_;
 };
 
 class PackageSender
