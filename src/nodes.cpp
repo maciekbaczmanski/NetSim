@@ -63,7 +63,18 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
     }
 }
 
+void PackageSender::push_package(Package &&package)
+{
+    // FIXME: sprawdzić czy to w ogóle ma prawo działać
+    bucket.emplace(std::move(package));
+}
 
+std::optional<Package> PackageSender::get_sending_buffer()
+{
+    std::optional<Package> returnbucket=std::move(bucket);
+    bucket.reset();
+    return returnbucket;
+}
 
 
 

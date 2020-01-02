@@ -46,7 +46,10 @@ public:
     ReceiverPreferences receiver_preferences_;
 
 protected:
-    void push_package(Package&&);
+    void push_package(Package&& package);
+
+private:
+    std::optional<Package> bucket;
 };
 
 class Ramp : public PackageSender
@@ -69,7 +72,7 @@ public:
 
 
 
-//TODO:  classes: IPackageReceiver, Storehouse, ReceiverPreferences, PackageSender, Ramp i Worker
+//TODO:  classes: IPackageReceiver, Storehouse, PackageSender, Ramp i Worker
 
 /*
 IPackageReceiver <interface> (Worker, Storehouse):
