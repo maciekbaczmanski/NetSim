@@ -13,13 +13,17 @@ class IPackageReceiver
 {
 public:
     void receive_package(Package&& p);
-    ElementID get_id();
+    virtual ElementID get_id() = 0;
 };
 
-class Storehouse
+class Storehouse: public IPackageReceiver
 {
 public:
-    Storehouse(std::unique_ptr<IPackageStockpile> d, ElementID id);
+    Storehouse(std::unique_ptr<IPackageStockpile> d, ElementID id): d_(std::move(d)), id_(id) {}
+    ElementID get_id();
+private:
+    std::unique_ptr<IPackageStockpile> d_;
+    ElementID id_;
 };
 
 class ReceiverPreferences
@@ -63,13 +67,14 @@ private:
     TimeOffset di_;
 };
 
-class Worker : public PackageSender
+class Worker : public PackageSender, IPackageReceiver
 {
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
     void do_work(Time t);
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
+    ElementID get_id();
 private:
     ElementID id_;
     TimeOffset pd_;

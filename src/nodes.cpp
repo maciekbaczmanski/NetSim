@@ -118,13 +118,24 @@ void Worker::do_work(Time t)
     }
 }
 
+TimeOffset Worker::get_processing_duration()
+{
+    return pd_;
+}
 
+Time Worker::get_package_processing_start_time()
+{
+    return starttime;
+}
 
-
-
-
-
-
+ElementID Worker::get_id()
+{
+    return id_;
+}
+ElementID Storehouse::get_id()
+{
+    return id_;
+}
 
 
 
