@@ -72,8 +72,15 @@ void PackageSender::push_package(Package &&package)
 std::optional<Package> PackageSender::get_sending_buffer()
 {
     std::optional<Package> returnbucket=std::move(bucket);
-    bucket.reset();
     return returnbucket;
+}
+void PackageSender::send_package()
+{
+    IPackageReceiver* receiver=receiver_preferences_.choose_receiver();
+    std::optional<Package> returnbucket=std::move(bucket);
+    Package && returnpackage=std::move(*returnbucket);
+    receiver->receive_package(std::move(returnpackage));
+    bucket.reset();
 }
 
 TimeOffset Ramp::get_delivery_interval()
@@ -105,9 +112,10 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q)
 
 void Worker::do_work(Time t)
 {
-    std::optional<Package> oldq=get_sending_buffer();
-    if (t-starttime==pd_ || !oldq)
+
+    if (t-starttime==pd_ )
     {
+        send_package();
         if(!queue->empty())
         {
             Package q=queue->pop();
@@ -137,6 +145,15 @@ ElementID Storehouse::get_id()
     return id_;
 }
 
+void Storehouse:: receive_package(Package &&p)
+{
+    d_->push(std::move(p));
+}
+
+void Worker:: receive_package(Package &&p)
+{
+    queue->push(std::move(p));
+}
 
 
 

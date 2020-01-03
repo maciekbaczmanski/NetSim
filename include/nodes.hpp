@@ -12,7 +12,7 @@
 class IPackageReceiver
 {
 public:
-    void receive_package(Package&& p);
+    virtual void receive_package(Package&& p);
     virtual ElementID get_id() = 0;
 };
 
@@ -21,6 +21,7 @@ class Storehouse: public IPackageReceiver
 public:
     Storehouse(std::unique_ptr<IPackageStockpile> d, ElementID id): d_(std::move(d)), id_(id) {}
     ElementID get_id();
+    void receive_package(Package && p);
 private:
     std::unique_ptr<IPackageStockpile> d_;
     ElementID id_;
@@ -72,6 +73,7 @@ class Worker : public PackageSender, IPackageReceiver
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
     void do_work(Time t);
+    void receive_package(Package && p);
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
     ElementID get_id();
