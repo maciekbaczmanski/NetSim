@@ -20,8 +20,8 @@ int main(){
     PackageQueueType wqt=PackageQueueType ::LIFO;
     PackageQueueType sqt=PackageQueueType ::LIFO;
 
-    Ramp r1(1, 5);
-    Worker w1(2,3,std::make_unique<PackageQueue>(wqt));
+    Ramp r1(1, 1);
+    Worker w1(2,2,std::make_unique<PackageQueue>(wqt));
     Storehouse s1(3,std::make_unique<PackageQueue>(sqt));
 
     r1.receiver_preferences_.add_receiver(&w1);
@@ -32,7 +32,7 @@ std::cout<<"abc";
     {
 
         r1.deliver_goods(i);
-
+        r1.send_package();
         w1.do_work(i);
 
 //        z=w1.get_sending_buffer();

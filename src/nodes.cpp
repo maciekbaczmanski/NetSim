@@ -66,23 +66,33 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
 
 void PackageSender::push_package(Package &&package)
 {
-    // FIXME: sprawdzić czy to w ogóle ma prawo działać
+// FIXME: sprawdzić czy to w ogóle ma prawo działać
     bucket=std::move(package);
 //    bucket.emplace(std::move(package));
 }
 
 std::optional<Package> PackageSender::get_sending_buffer()
 {
-    std::optional<Package> returnbucket=std::move(bucket);
-    return returnbucket;
+    if(bucket) return std::move(bucket);
+    else return std::nullopt;
+}
+
+bool PackageSender::buffer_empty()
+{
+    if(bucket) return true;
+    else return false;
 }
 void PackageSender::send_package()
 {
-    IPackageReceiver* receiver=receiver_preferences_.choose_receiver();
-//    std::optional<Package> returnbucket=std::move(bucket);
-//    Package && returnpackage=std::move(*returnbucket);
-    receiver->receive_package(std::move(*bucket));
-    bucket.reset();
+    if(bucket)
+    {
+        receiver_preferences_.choose_receiver()->receive_package(std::move(*bucket));
+        bucket.reset();
+    }
+//    IPackageReceiver* receiver=receiver_preferences_.choose_receiver();
+//    receiver->receive_package(std::move(bucket.value()));
+//    bucket.reset();
+
 }
 
 TimeOffset Ramp::get_delivery_interval()
@@ -97,13 +107,13 @@ ElementID Ramp::get_id()
 
 void Ramp::deliver_goods(Time t)
 {
+
     if(t%di_==0)
     {
-
         Package p;
         std::cout<<"created, id "<<p.get_id()<<"\n";
         push_package(std::move(p));
-        send_package();
+
     }
 }
 
@@ -122,9 +132,8 @@ void Worker::do_work(Time t)
 
         send_package();
     }
-    std::optional<Package> z=get_sending_buffer();
 
-    if(!queue->empty() && !z)
+    if(!queue->empty() && !buffer_empty())
     {
 
         push_package(queue->pop());

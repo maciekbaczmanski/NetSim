@@ -46,6 +46,7 @@ class PackageSender
 public:
     void send_package();
     std::optional<Package> get_sending_buffer();
+    bool buffer_empty();
     ReceiverPreferences receiver_preferences_;
 protected:
     void push_package(Package&& package);
