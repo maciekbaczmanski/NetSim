@@ -5,8 +5,9 @@
 
 
 
-void ReceiverPreferences::add_receiver(IPackageReceiver *r, double preference=1)
+void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
+    double preference=1;
     double sum=0.0;
     double newsum=0.0;
     mapofreceivers[r]=preference;
@@ -66,7 +67,8 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
 void PackageSender::push_package(Package &&package)
 {
     // FIXME: sprawdzić czy to w ogóle ma prawo działać
-    bucket.emplace(std::move(package));
+    bucket=std::move(package);
+//    bucket.emplace(std::move(package));
 }
 
 std::optional<Package> PackageSender::get_sending_buffer()
@@ -77,9 +79,9 @@ std::optional<Package> PackageSender::get_sending_buffer()
 void PackageSender::send_package()
 {
     IPackageReceiver* receiver=receiver_preferences_.choose_receiver();
-    std::optional<Package> returnbucket=std::move(bucket);
-    Package && returnpackage=std::move(*returnbucket);
-    receiver->receive_package(std::move(returnpackage));
+//    std::optional<Package> returnbucket=std::move(bucket);
+//    Package && returnpackage=std::move(*returnbucket);
+    receiver->receive_package(std::move(*bucket));
     bucket.reset();
 }
 
@@ -97,8 +99,11 @@ void Ramp::deliver_goods(Time t)
 {
     if(t%di_==0)
     {
+
         Package p;
+        std::cout<<"created, id "<<p.get_id()<<"\n";
         push_package(std::move(p));
+        send_package();
     }
 }
 
@@ -112,18 +117,21 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q)
 
 void Worker::do_work(Time t)
 {
-
     if (t-starttime==pd_ )
     {
+
         send_package();
-        if(!queue->empty())
-        {
-            Package q=queue->pop();
-            push_package(std::move(q));
-            starttime=t;
-        }
+    }
+    std::optional<Package> z=get_sending_buffer();
+
+    if(!queue->empty() && !z)
+    {
+
+        push_package(queue->pop());
+        starttime=t;
 
     }
+
 }
 
 TimeOffset Worker::get_processing_duration()
@@ -155,68 +163,3 @@ void Worker:: receive_package(Package &&p)
     queue->push(std::move(p));
 }
 
-
-
-
-
-
-
-
-
-
-/*
-class IPackageReceiver
-{
-public:
-    void receive_package(Package&& p);
-    ElementID get_id();
-};
-
-class Storehouse
-{
-public:
-    Storehouse(std::unique_ptr<IPackageStockpile> d, ElementID id);
-};
-
-class ReceiverPreferences
-{
-public:
-    void add_receiver(IPackageReceiver* r);
-    void remove_receiver(IPackageReceiver* r);
-    IPackageReceiver* choose_receiver();
-};
-
-class PackageSender
-{
-public:
-    void send_package();
-    std::optional<Package> get_sending_buffer();
-    ReceiverPreferences receiver_preferences_;
-
-protected:
-    void push_package(Package&&);
-};
-
-class Ramp : public PackageSender
-{
-public:
-    Ramp(ElementID id, TimeOffset di);
-    void deliver_goods(Time t);
-    TimeOffset get_delivery_interval();
-    ElementID get_id();
-};
-
-class Worker : public PackageSender
-{
-public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
-    void do_work(Time t);
-    TimeOffset get_processing_duration();
-    Time get_package_processing_start_time();
-};
-
-
-
-
-
- */

@@ -12,6 +12,7 @@ set(SOURCE_FILES
         src/package.cpp
         src/nodes.cpp
         src/storage_types.cpp
+        src/helpers.cpp
         )
 
 add_executable(NetSim ${SOURCE_FILES} main.cpp)
@@ -19,7 +20,7 @@ add_executable(NetSim ${SOURCE_FILES} main.cpp)
 # == Unit testing using Google Testing Framework ==
 
 set(SOURCES_FILES_TESTS
-        test/test_package_queue.cpp)
+        test/test_package_queue.cpp )
 
 add_executable(NetSim__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
 

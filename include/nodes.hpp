@@ -12,14 +12,14 @@
 class IPackageReceiver
 {
 public:
-    virtual void receive_package(Package&& p);
+    virtual void receive_package(Package&& p)= 0;
     virtual ElementID get_id() = 0;
 };
 
 class Storehouse: public IPackageReceiver
 {
 public:
-    Storehouse(std::unique_ptr<IPackageStockpile> d, ElementID id): d_(std::move(d)), id_(id) {}
+    Storehouse(ElementID id,std::unique_ptr<IPackageStockpile> d): d_(std::move(d)), id_(id) {}
     ElementID get_id();
     void receive_package(Package && p);
 private:
@@ -31,8 +31,8 @@ class ReceiverPreferences
 {
     using preferences_t = std::map<IPackageReceiver*, double>;
 public:
-    ReceiverPreferences(std::function<double()>  generator_function=random_generator): generator_(generator_function){}
-    void add_receiver(IPackageReceiver* r, double preference);
+    ReceiverPreferences(std::function<double()>  generator_function=r_generator): generator_(generator_function){}
+    void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
 
@@ -47,7 +47,6 @@ public:
     void send_package();
     std::optional<Package> get_sending_buffer();
     ReceiverPreferences receiver_preferences_;
-
 protected:
     void push_package(Package&& package);
 
@@ -68,7 +67,7 @@ private:
     TimeOffset di_;
 };
 
-class Worker : public PackageSender, IPackageReceiver
+class Worker : public PackageSender, public IPackageReceiver
 {
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
@@ -77,6 +76,7 @@ public:
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
     ElementID get_id();
+
 private:
     ElementID id_;
     TimeOffset pd_;
