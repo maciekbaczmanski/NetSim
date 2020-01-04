@@ -1,10 +1,5 @@
 #include "nodes.hpp"
 
-//TODO: funkcjonalnosci klas z nodes.hpp
-
-
-
-
 void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
     double preference=1;
@@ -49,26 +44,28 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
     }
 }
 
-
 IPackageReceiver* ReceiverPreferences::choose_receiver()
 {
+
     double randnmb=generator_();
     double distribution=0.0;
+    IPackageReceiver* remember;
     for (const auto &pair: mapofreceivers)
     {
         distribution=distribution+pair.second;
+        remember=pair.first;
         if(randnmb<distribution)
+        {
             return pair.first;
+        }
+
     }
-    auto it=mapofreceivers.end();
-    return it->first;
+    return remember;
 }
 
 void PackageSender::push_package(Package &&package)
 {
-// FIXME: sprawdzić czy to w ogóle ma prawo działać
-    bucket=std::move(package);
-//    bucket.emplace(std::move(package));
+    bucket.emplace(std::move(package));
 }
 
 std::optional<Package> PackageSender::get_sending_buffer()
@@ -84,14 +81,15 @@ bool PackageSender::buffer_empty()
 }
 void PackageSender::send_package()
 {
+
     if(bucket)
     {
-        receiver_preferences_.choose_receiver()->receive_package(std::move(*bucket));
+        IPackageReceiver* receiver =receiver_preferences_.choose_receiver();
+        receiver->receive_package(std::move(*bucket));
         bucket.reset();
+
     }
-//    IPackageReceiver* receiver=receiver_preferences_.choose_receiver();
-//    receiver->receive_package(std::move(bucket.value()));
-//    bucket.reset();
+
 
 }
 
@@ -111,7 +109,6 @@ void Ramp::deliver_goods(Time t)
     if(t%di_==0)
     {
         Package p;
-        std::cout<<"created, id "<<p.get_id()<<"\n";
         push_package(std::move(p));
 
     }
@@ -164,11 +161,14 @@ ElementID Storehouse::get_id()
 
 void Storehouse:: receive_package(Package &&p)
 {
+
+    std::cout<<"received pack: "<<p.get_id()<<" storehouse id: "<<get_id()<<"\n";
     d_->push(std::move(p));
 }
 
 void Worker:: receive_package(Package &&p)
 {
+    std::cout<<"received pack: "<<p.get_id()<<" worker id: "<<get_id()<<"\n";
+
     queue->push(std::move(p));
 }
-

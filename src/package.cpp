@@ -69,7 +69,6 @@ Package::~Package() {
     if (id_ != BLANK_ID) {
         insert_if_not_exists(freed_ids_, id_);
         erase_if_exists(assigned_ids_, id_);
-        std::cout<<"wtf";
     }
 }
 

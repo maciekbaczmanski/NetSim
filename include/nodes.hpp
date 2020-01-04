@@ -1,7 +1,5 @@
 #ifndef NETSIM_NODES_HPP
 #define NETSIM_NODES_HPP
-
-
 #include "helpers.hpp"
 #include "storage_types.hpp"
 #include <iostream>

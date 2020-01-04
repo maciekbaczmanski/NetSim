@@ -18,29 +18,27 @@ int main(){
 //
 //    PackageQueue PQ(PackageQueueType::LIFO);
     PackageQueueType wqt=PackageQueueType ::LIFO;
+    PackageQueueType wqt2=PackageQueueType ::LIFO;
     PackageQueueType sqt=PackageQueueType ::LIFO;
 
-    Ramp r1(1, 1);
-    Worker w1(2,2,std::make_unique<PackageQueue>(wqt));
-    Storehouse s1(3,std::make_unique<PackageQueue>(sqt));
+    Ramp r1(1, 5);
+    Worker w1(1,3,std::make_unique<PackageQueue>(wqt));
+    Worker w2(2,3,std::make_unique<PackageQueue>(wqt2));
+    Storehouse s1(4,std::make_unique<PackageQueue>(sqt));
 
     r1.receiver_preferences_.add_receiver(&w1);
     w1.receiver_preferences_.add_receiver(&s1);
-std::cout<<"abc";
+    r1.receiver_preferences_.add_receiver(&w2);
+    w2.receiver_preferences_.add_receiver(&s1);
+
     std::optional<Package> z;
     for(double i=0;i<15;i++)
     {
-
+        std::cout<<"\nTour nmbr: "<<i<<"\n";
         r1.deliver_goods(i);
         r1.send_package();
         w1.do_work(i);
 
-//        z=w1.get_sending_buffer();
-//        std::cout<<"NOW??\n\n";
-//        if(z)
-//        {
-//            std::cout<<i<<"   "<<z.value().get_id()<<"\n";
-//        }
 
     }
 //
