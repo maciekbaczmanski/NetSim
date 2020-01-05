@@ -81,7 +81,6 @@ bool PackageSender::buffer_empty()
 }
 void PackageSender::send_package()
 {
-
     if(bucket)
     {
         IPackageReceiver* receiver =receiver_preferences_.choose_receiver();
@@ -89,8 +88,6 @@ void PackageSender::send_package()
         bucket.reset();
 
     }
-
-
 }
 
 TimeOffset Ramp::get_delivery_interval()
@@ -120,23 +117,24 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q)
     pd_=pd;
     queue=std::move(q);
     starttime=0;
+    processing=std::nullopt;
 }
 
 void Worker::do_work(Time t)
 {
-    if (t-starttime==pd_ )
+    if(!queue->empty() && !processing)
     {
-
-        send_package();
-    }
-
-    if(!queue->empty() && !buffer_empty())
-    {
-
-        push_package(queue->pop());
+        processing=queue->pop();
         starttime=t;
-
     }
+
+    if (t-starttime==pd_-1  && processing)
+    {
+        push_package(std::move(*processing));
+        processing.reset();
+    }
+
+
 
 }
 

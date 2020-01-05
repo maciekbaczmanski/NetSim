@@ -36,8 +36,14 @@ int main(){
     {
         std::cout<<"\nTour nmbr: "<<i<<"\n";
         r1.deliver_goods(i);
+
         r1.send_package();
+        w1.send_package();
+        w2.send_package();
+
         w1.do_work(i);
+        w2.do_work(i);
+
 
 
     }

@@ -27,12 +27,18 @@ private:
 
 class ReceiverPreferences
 {
-    using preferences_t = std::map<IPackageReceiver*, double>;
+
 public:
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
     ReceiverPreferences(std::function<double()>  generator_function=r_generator): generator_(generator_function){}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
+    const_iterator begin() {return mapofreceivers.begin();}
+    const const_iterator cbegin() {return mapofreceivers.cbegin();}
+    const_iterator end() {return mapofreceivers.end();}
+    const const_iterator cend() {return mapofreceivers.cend();}
 
 private:
     preferences_t mapofreceivers;
@@ -81,6 +87,7 @@ private:
     TimeOffset pd_;
     std::unique_ptr<PackageQueue> queue;
     Time starttime;
+    std::optional<Package> processing;
 };
 
 
