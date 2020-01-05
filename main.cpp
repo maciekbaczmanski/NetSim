@@ -39,7 +39,6 @@ int main(){
     std::optional<Package> z;
     for(double i=0;i<15;i++)
     {
-        std::cout<<"\nTour nmbr: "<<i<<"\n";
         r1.deliver_goods(i);
 
         r1.send_package();
