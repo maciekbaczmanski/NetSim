@@ -31,7 +31,8 @@ class ReceiverPreferences
 public:
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
-    ReceiverPreferences(std::function<double()>  generator_function=r_generator): generator_(generator_function){}
+    using reverse_iterator = preferences_t ::reverse_iterator;
+    ReceiverPreferences(ProbabilityGenerator  generator_function=r_generator): generator_(generator_function){}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
@@ -39,10 +40,12 @@ public:
     const const_iterator cbegin() {return mapofreceivers.cbegin();}
     const_iterator end() {return mapofreceivers.end();}
     const const_iterator cend() {return mapofreceivers.cend();}
+    reverse_iterator rbegin() {return mapofreceivers.rbegin();}
+    reverse_iterator rend() {return mapofreceivers.rend();}
 
 private:
     preferences_t mapofreceivers;
-    std::function<double()> generator_;
+    ProbabilityGenerator generator_;
 };
 
 class PackageSender
@@ -62,7 +65,7 @@ private:
 class Ramp : public PackageSender
 {
 public:
-    Ramp(ElementID id, TimeOffset di):id_(id), di_(di){}
+    Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval();
     ElementID get_id();
@@ -82,6 +85,7 @@ public:
     Time get_package_processing_start_time();
     ElementID get_id();
 
+
 private:
     ElementID id_;
     TimeOffset pd_;
@@ -92,39 +96,5 @@ private:
 
 
 
-//TODO:  classes: IPackageReceiver, Storehouse, PackageSender, Ramp i Worker
 
-/*
-IPackageReceiver <interface> (Worker, Storehouse):
-    receive_package(p: Package&&) : void
-    get_id(void) : ElementID {query}
-
-Storehouse (IPackageStockpile):
-    Storehouse(id: ElementID, d: std::unique_ptr<IPackageStockpile>)
-
-ReceiverPreferences (PackageSender):
-    add_receiver(r: IPackageReceiver*) : void
-    remove_receiver(r: IPackageReceiver*) : void
-    choose_receiver(void) : IPackageReceiver*
-
-PackageSender (Ramp, Worker):
-    receiver_preferences_: ReceiverPreferences
-
-    send_package(void) : void
-    get_sending_buffer(void) : std::optional<Package> {query}
-    push_package(Package&&) : void  {PROTECTED}
-
-Ramp ():
-    Ramp(id: ElementID, di: TimeOffset) : void
-    deliver_goods(t: Time) : void
-    get_delivery_interval(void) : TimeOffset {query}
-    get_id(void) : ElementID {query}
-
-Worker ():
-    Worker(id: ElementID, pd: TimeOffset, q: std::unique_ptr<PackageQueue>) : void
-    do_work(t: Time) : void
-    get_processing_duration(void) : TimeOffset {query}
-    get_package_processing_start_time(void) : Time {query}
-
-*/
 #endif //NETSIM_NODES_HPP

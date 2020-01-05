@@ -1,12 +1,15 @@
 #include "helpers.hpp"
 
-//double r_generator() {
-//    std::random_device rd;
-//    std::mt19937 rng(rd());
-//    return std::generate_canonical<double, 1>(rng);
-//}
+std::random_device rd;
+std::mt19937 rng(rd());
 
-double r_generator()
-{
-    return 1;
+
+double r_generator() {
+    double rand = std::generate_canonical<double, 10>(rng);
+    return rand;
 }
+
+//double r_generator()
+//{
+//    return 0.0;
+//}

@@ -3,16 +3,11 @@
 void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
     double preference=1;
-    double sum=0.0;
     double newsum=0.0;
     mapofreceivers[r]=preference;
-    for (const auto &pair : mapofreceivers)
-    {
-        sum=sum+pair.second;
-    }
     for (auto &pair : mapofreceivers)
     {
-        mapofreceivers[pair.first]=mapofreceivers[pair.first]/sum;
+        mapofreceivers[pair.first]=1.0/mapofreceivers.size();
         newsum=newsum+pair.second;
     }
     if(newsum!=1.0)
@@ -24,17 +19,12 @@ void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
 {
-    double sum=0.0;
     IPackageReceiver* memory=r;
     double newsum=0.0;
     mapofreceivers.erase(r);
     for (const auto &pair : mapofreceivers)
     {
-        sum=sum+pair.second;
-    }
-    for (const auto &pair : mapofreceivers)
-    {
-        mapofreceivers[pair.first]=mapofreceivers[pair.first]/sum;
+        mapofreceivers[pair.first]=1.0/mapofreceivers.size();
         newsum=newsum+pair.second;
         memory=pair.first;
     }
@@ -46,26 +36,25 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
 
 IPackageReceiver* ReceiverPreferences::choose_receiver()
 {
-
     double randnmb=generator_();
     double distribution=0.0;
-    IPackageReceiver* remember;
-    for (const auto &pair: mapofreceivers)
+    IPackageReceiver* remember=mapofreceivers.rbegin()->first;
+    std::map<IPackageReceiver*, double>::reverse_iterator it;
+    for(it=mapofreceivers.rbegin();it!=mapofreceivers.rend();++it)
     {
-        distribution=distribution+pair.second;
-        remember=pair.first;
+        distribution=distribution+it->second;
+        remember=it->first;
         if(randnmb<distribution)
         {
-            return pair.first;
+            break;
         }
-
     }
     return remember;
 }
 
 void PackageSender::push_package(Package &&package)
 {
-    bucket.emplace(std::move(package));
+    bucket=std::move(package);
 }
 
 std::optional<Package> PackageSender::get_sending_buffer()
@@ -86,8 +75,12 @@ void PackageSender::send_package()
         IPackageReceiver* receiver =receiver_preferences_.choose_receiver();
         receiver->receive_package(std::move(*bucket));
         bucket.reset();
-
     }
+}
+Ramp::Ramp(ElementID id, TimeOffset di)
+{
+    id_=id;
+    di_=di;
 }
 
 TimeOffset Ramp::get_delivery_interval()
@@ -102,12 +95,10 @@ ElementID Ramp::get_id()
 
 void Ramp::deliver_goods(Time t)
 {
-
     if(t%di_==0)
     {
         Package p;
         push_package(std::move(p));
-
     }
 }
 
@@ -118,10 +109,12 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q)
     queue=std::move(q);
     starttime=0;
     processing=std::nullopt;
+
 }
 
 void Worker::do_work(Time t)
 {
+
     if(!queue->empty() && !processing)
     {
         processing=queue->pop();
@@ -159,14 +152,10 @@ ElementID Storehouse::get_id()
 
 void Storehouse:: receive_package(Package &&p)
 {
-
-    std::cout<<"received pack: "<<p.get_id()<<" storehouse id: "<<get_id()<<"\n";
     d_->push(std::move(p));
 }
 
 void Worker:: receive_package(Package &&p)
 {
-    std::cout<<"received pack: "<<p.get_id()<<" worker id: "<<get_id()<<"\n";
-
     queue->push(std::move(p));
 }
