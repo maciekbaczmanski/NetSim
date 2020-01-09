@@ -4,9 +4,10 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include "types.hpp"
 
 
-
-double r_generator();
+extern double r_generator();
+extern ProbabilityGenerator  probability_generator;
 
 #endif //NETSIM_HELPERS_HPP

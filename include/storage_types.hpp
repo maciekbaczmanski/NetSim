@@ -3,7 +3,7 @@
 
 #include "package.hpp"
 #include <deque>
-
+#include <list>
 
 enum class PackageQueueType{
     LIFO,
@@ -12,19 +12,19 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    using packageIt = std::deque<Package>::const_iterator;
+    using const_iterator = std::list<Package>::const_iterator;
     virtual void push(Package&& pack)= 0;
     virtual bool empty() = 0;
     virtual size_type size() = 0;
-    virtual packageIt begin() = 0;
-    virtual const packageIt cbegin() = 0;
-    virtual packageIt end()= 0;
-    virtual const packageIt cend() = 0;
+    virtual  const_iterator begin() const= 0;
+    virtual  const_iterator cbegin()const = 0;
+    virtual  const_iterator end()const= 0;
+    virtual  const_iterator cend() const= 0;
 
 
 
 protected:
-    std::deque<Package> queue;
+    std::list<Package> queue;
     PackageQueueType queueType;
 };
 
@@ -42,10 +42,10 @@ public:
     size_type size() { return size_type(queue.size()); };
     Package pop();
     PackageQueueType get_queue_type(){ return queueType; };
-    packageIt begin() { return queue.begin(); };
-    const packageIt cbegin() { return queue.cbegin(); };
-    packageIt end() { return queue.end(); };
-    const packageIt cend() { return queue.cend(); };
+    const_iterator begin() const{ return queue.cbegin(); };
+    const_iterator cbegin() const{ return queue.cbegin(); };
+    const_iterator end() const{ return queue.cend(); };
+    const_iterator cend() const { return queue.cend(); };
 
 };
 #endif //NETSIM_STORAGE_TYPES_HPP

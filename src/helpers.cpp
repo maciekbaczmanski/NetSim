@@ -13,3 +13,6 @@ double r_generator() {
 //{
 //    return 0.0;
 //}
+
+
+std::function<double()> probability_generator = r_generator;

@@ -24,7 +24,7 @@ int main(){
 
     Ramp r1(1, 5);
     Worker w1(1,3,std::make_unique<PackageQueue>(wqt));
-    Worker w2(2,3,std::make_unique<PackageQueue>(wqt2));
+    Worker w2(2,1,std::make_unique<PackageQueue>(wqt2));
     Worker w3(3,3,std::make_unique<PackageQueue>(wqt3));
     Storehouse s1(4,std::make_unique<PackageQueue>(sqt));
 
@@ -37,8 +37,10 @@ int main(){
     w3.receiver_preferences_.add_receiver(&s1);
 
     std::optional<Package> z;
-    for(double i=0;i<15;i++)
+    for(double i=1;i<15;i++)
     {
+        std::cout<<"\nTour nmb: "<<i<<"\n";
+
         r1.deliver_goods(i);
 
         r1.send_package();
@@ -55,7 +57,9 @@ int main(){
 //    std::cout<< PQ.size() <<std::endl;
 //    std::cout<< PQ.empty() <<std::endl;
 
-    std::cout<< "Done" <<std::endl;
+    std::cout<< "Done\n\n" <<std::endl;
+    
+    
 
 
 return 0;

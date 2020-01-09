@@ -88,14 +88,14 @@ TimeOffset Ramp::get_delivery_interval()
     return di_;
 }
 
-ElementID Ramp::get_id()
+ ElementID Ramp::get_id()
 {
-    return id_;
+    return  id_;
 }
 
 void Ramp::deliver_goods(Time t)
 {
-    if(t%di_==0)
+    if(t%di_==1)
     {
         Package p;
         push_package(std::move(p));
@@ -152,10 +152,13 @@ ElementID Storehouse::get_id()
 
 void Storehouse:: receive_package(Package &&p)
 {
+    std::cout<<"\nStoregouse id: "<<get_id()<<" Package id: "<<p.get_id();
     d_->push(std::move(p));
+
 }
 
 void Worker:: receive_package(Package &&p)
 {
+    std::cout<<"\nWorker id: "<<get_id()<<" Package id: "<<p.get_id();
     queue->push(std::move(p));
 }
