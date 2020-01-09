@@ -7,7 +7,7 @@
 #include "types.hpp"
 
 
-extern double r_generator();
+extern double default_probability_generator();
 extern ProbabilityGenerator  probability_generator;
 
 #endif //NETSIM_HELPERS_HPP

@@ -4,7 +4,7 @@ std::random_device rd;
 std::mt19937 rng(rd());
 
 
-double r_generator() {
+double default_probability_generator() {
     double rand = std::generate_canonical<double, 10>(rng);
     return rand;
 }
@@ -15,4 +15,4 @@ double r_generator() {
 //}
 
 
-std::function<double()> probability_generator = r_generator;
+std::function<double()> probability_generator = default_probability_generator;
