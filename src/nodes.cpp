@@ -57,10 +57,9 @@ void PackageSender::push_package(Package &&package)
     bucket=std::move(package);
 }
 
-std::optional<Package> PackageSender::get_sending_buffer()
+std::optional<Package> & PackageSender::get_sending_buffer()
 {
-    if(bucket) return std::move(bucket);
-    else return std::nullopt;
+    return bucket;
 }
 
 bool PackageSender::buffer_empty()

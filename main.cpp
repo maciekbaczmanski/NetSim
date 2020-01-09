@@ -22,7 +22,7 @@ int main(){
     PackageQueueType wqt3=PackageQueueType ::LIFO;
     PackageQueueType sqt=PackageQueueType ::LIFO;
 
-    Ramp r1(1, 5);
+    Ramp r1(1, 1);
     Worker w1(1,3,std::make_unique<PackageQueue>(wqt));
     Worker w2(2,1,std::make_unique<PackageQueue>(wqt2));
     Worker w3(3,3,std::make_unique<PackageQueue>(wqt3));

@@ -36,10 +36,10 @@ public:
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
-    const_iterator begin() {return mapofreceivers.cbegin();}
-    const const_iterator cbegin() {return mapofreceivers.cbegin();}
-    const_iterator end() {return mapofreceivers.cend();}
-    const const_iterator cend() {return mapofreceivers.cend();}
+    const_iterator begin() const {return mapofreceivers.cbegin();}
+    const_iterator cbegin() const {return mapofreceivers.cbegin();}
+    const_iterator end() const {return mapofreceivers.cend();}
+    const_iterator cend() const {return mapofreceivers.cend();}
     reverse_iterator rbegin() {return mapofreceivers.rbegin();}
     reverse_iterator rend() {return mapofreceivers.rend();}
 
@@ -52,7 +52,7 @@ class PackageSender
 {
 public:
     void send_package();
-    std::optional<Package> get_sending_buffer();
+    std::optional<Package> & get_sending_buffer();
     bool buffer_empty();
     ReceiverPreferences receiver_preferences_;
 protected:
