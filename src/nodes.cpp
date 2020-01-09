@@ -4,15 +4,15 @@ void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
     double preference=1;
     double newsum=0.0;
-    mapofreceivers[r]=preference;
-    for (auto &pair : mapofreceivers)
+    preferences_[r]=preference;
+    for (auto &pair : preferences_)
     {
-        mapofreceivers[pair.first]=1.0/mapofreceivers.size();
+        preferences_[pair.first]=1.0/preferences_.size();
         newsum=newsum+pair.second;
     }
     if(newsum!=1.0)
     {
-        mapofreceivers[r]=mapofreceivers[r]+1.0-newsum;
+        preferences_[r]=preferences_[r]+1.0-newsum;
     }
 }
 
@@ -21,16 +21,16 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
 {
     IPackageReceiver* memory=r;
     double newsum=0.0;
-    mapofreceivers.erase(r);
-    for (const auto &pair : mapofreceivers)
+    preferences_.erase(r);
+    for (const auto &pair : preferences_)
     {
-        mapofreceivers[pair.first]=1.0/mapofreceivers.size();
+        preferences_[pair.first]=1.0/preferences_.size();
         newsum=newsum+pair.second;
         memory=pair.first;
     }
     if(newsum!=1.0)
     {
-        mapofreceivers[memory]=mapofreceivers[memory]+1.0-newsum;
+        preferences_[memory]=preferences_[memory]+1.0-newsum;
     }
 }
 
@@ -38,9 +38,9 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
 {
     double randnmb=generator_();
     double distribution=0.0;
-    IPackageReceiver* remember=mapofreceivers.rbegin()->first;
+    IPackageReceiver* remember=preferences_.rbegin()->first;
     std::map<IPackageReceiver*, double>::reverse_iterator it;
-    for(it=mapofreceivers.rbegin();it!=mapofreceivers.rend();++it)
+    for(it=preferences_.rbegin();it!=preferences_.rend();++it)
     {
         distribution=distribution+it->second;
         remember=it->first;

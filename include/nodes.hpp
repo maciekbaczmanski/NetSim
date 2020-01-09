@@ -36,15 +36,16 @@ public:
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
-    const_iterator begin() const {return mapofreceivers.cbegin();}
-    const_iterator cbegin() const {return mapofreceivers.cbegin();}
-    const_iterator end() const {return mapofreceivers.cend();}
-    const_iterator cend() const {return mapofreceivers.cend();}
-    reverse_iterator rbegin() {return mapofreceivers.rbegin();}
-    reverse_iterator rend() {return mapofreceivers.rend();}
+    const_iterator begin() const {return preferences_.cbegin();}
+    const_iterator cbegin() const {return preferences_.cbegin();}
+    const_iterator end() const {return preferences_.cend();}
+    const_iterator cend() const {return preferences_.cend();}
+    reverse_iterator rbegin() {return preferences_.rbegin();}
+    reverse_iterator rend() {return preferences_.rend();}
+    const preferences_t& get_preferences() const { return preferences_; }
 
 private:
-    preferences_t mapofreceivers;
+    preferences_t preferences_;
     ProbabilityGenerator generator_;
 };
 
