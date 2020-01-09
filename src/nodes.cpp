@@ -88,7 +88,7 @@ TimeOffset Ramp::get_delivery_interval()
     return di_;
 }
 
- ElementID Ramp::get_id()
+ ElementID Ramp::get_id() const
 {
     return  id_;
 }
@@ -141,24 +141,24 @@ Time Worker::get_package_processing_start_time()
     return starttime;
 }
 
-ElementID Worker::get_id()
+ElementID Worker::get_id() const
 {
     return id_;
 }
-ElementID Storehouse::get_id()
+ElementID Storehouse::get_id() const
 {
     return id_;
 }
 
 void Storehouse:: receive_package(Package &&p)
 {
-    std::cout<<"\nStoregouse id: "<<get_id()<<" Package id: "<<p.get_id();
+//    std::cout<<"\nStoregouse id: "<<get_id()<<" Package id: "<<p.get_id();
     d_->push(std::move(p));
 
 }
 
 void Worker:: receive_package(Package &&p)
 {
-    std::cout<<"\nWorker id: "<<get_id()<<" Package id: "<<p.get_id();
+//    std::cout<<"\nWorker id: "<<get_id()<<" Package id: "<<p.get_id();
     queue->push(std::move(p));
 }

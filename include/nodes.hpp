@@ -11,14 +11,14 @@ class IPackageReceiver
 {
 public:
     virtual void receive_package(Package&& p)= 0;
-    virtual ElementID get_id() = 0;
+    virtual ElementID get_id() const = 0;
 };
 
 class Storehouse: public IPackageReceiver
 {
 public:
     Storehouse(ElementID id,std::unique_ptr<IPackageStockpile> d): d_(std::move(d)), id_(id) {}
-    ElementID get_id();
+    ElementID get_id() const;
     void receive_package(Package && p);
 private:
     std::unique_ptr<IPackageStockpile> d_;
@@ -68,7 +68,7 @@ public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval();
-    ElementID get_id();
+    ElementID get_id() const;
 
 private:
     ElementID id_;
@@ -83,7 +83,7 @@ public:
     void receive_package(Package && p);
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
-    ElementID get_id();
+    ElementID get_id() const;
 
 
 private:
