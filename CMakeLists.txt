@@ -20,9 +20,9 @@ add_executable(NetSim ${SOURCE_FILES} main.cpp)
 # == Unit testing using Google Testing Framework ==
 
 set(SOURCES_FILES_TESTS
-        #finaltest/test_Factory.cpp
+        finaltest/test_Factory.cpp
         #finaltest/test_factory_io.cpp
-        finaltest/test_nodes.cpp
+        #finaltest/test_nodes.cpp
         finaltest/test_package.cpp
         finaltest/test_package_queue.cpp
         #finaltest/test_simulate.cpp
@@ -30,7 +30,7 @@ set(SOURCES_FILES_TESTS
 
 
 add_executable(NetSim__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} finaltest/main_gtest.cpp)
-target_compile_definitions(NetSim__test PUBLIC EXERCISE_ID=EXERCISE_ID_NODES)
+target_compile_definitions(NetSim__test PUBLIC EXERCISE_ID=EXERCISE_ID_FACTORY)
 
 target_include_directories(NetSim__test PUBLIC
         googletest-master/googlemock/include
