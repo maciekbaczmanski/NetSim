@@ -3,6 +3,7 @@
 
 #include "nodes.hpp"
 #include <algorithm>
+#include <exception>
 
 template <typename Node>
 class NodeCollection{
