@@ -1,6 +1,46 @@
 #include "Factory.hpp"
 
+enum node_color{NOT_VISITED,VISITED,VERIFIED};
+
+struct no_reachable_storehouse_error : public std::exception
+{
+    /**
+    Exception thrown if no reachable storehouse
+     was found for a given node
+    */
+    const char * what () const throw (){
+        return "No reachable storehouse";
+    }
+};
+
 bool Factory::is_consistent() {
+
+    std::map<PackageSender*, node_color > color;
+    ////MARK EVERY SENDER (RAMPS, WORKERS) AS NOT VISITED
+    std::for_each(Ramps.begin(),Ramps.end(),[&color](auto &sender){
+        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+
+    std::for_each(Workers.begin(),Workers.end(),[&color](auto &sender){
+        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+
+    std::for_each(Ramps.begin(),Ramps.end(),[this](auto &ramp){
+        try{
+            if(sender_has_reachable_storehouse(&ramp)){
+                return true;
+            }
+
+        }catch (no_reachable_storehouse_error &e){
+            return false;
+        }
+        return false;
+    });
+
+    return false;
+}
+
+bool Factory::sender_has_reachable_storehouse(PackageSender* node){
+    ////TEMP
+    node = node;
     return false;
 }
 

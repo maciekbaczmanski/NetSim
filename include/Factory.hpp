@@ -72,6 +72,8 @@ private:
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;
+
+    bool sender_has_reachable_storehouse(PackageSender* node);
 };
 
 #endif //NETSIM_FACTORY_HPP

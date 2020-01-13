@@ -7,6 +7,7 @@
 #include <memory>
 #include <map>
 #include <functional>
+#include <exception>
 
 enum ReceiverType {WORKER,
     STOREHOUSE};
