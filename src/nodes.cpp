@@ -151,13 +151,13 @@ ElementID Storehouse::get_id() const
 
 void Storehouse:: receive_package(Package &&p)
 {
-//    std::cout<<"\nStoregouse id: "<<get_id()<<" Package id: "<<p.get_id();
+
     d_->push(std::move(p));
 
 }
 
 void Worker:: receive_package(Package &&p)
 {
-//    std::cout<<"\nWorker id: "<<get_id()<<" Package id: "<<p.get_id();
+
     queue->push(std::move(p));
 }

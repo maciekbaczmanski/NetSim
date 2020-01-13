@@ -34,7 +34,7 @@ public:
 
     ~GlobalFunctionsFixture() override {
         #if (defined EXERCISE_ID && EXERCISE_ID == EXERCISE_ID_NODES)
-//        probability_generator = []() { return 0; };
+        probability_generator = []() { return 0; };
         #else
         probability_generator = default_probability_generator;
         #endif
