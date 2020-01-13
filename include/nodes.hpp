@@ -23,7 +23,7 @@ public:
 class Storehouse: public IPackageReceiver
 {
 public:
-    Storehouse(ElementID id,std::unique_ptr<IPackageStockpile> d): d_(std::move(d)), id_(id) {}
+    Storehouse(ElementID id,std::unique_ptr<IPackageStockpile> d= std::make_unique<PackageQueue>(PackageQueueType::LIFO)): d_(std::move(d)), id_(id) {}
     ElementID get_id() const;
     void receive_package(Package && p);
     ReceiverType get_receiver_type(){ return ReceiverType::STOREHOUSE; };
