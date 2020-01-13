@@ -7,10 +7,15 @@
 #include <memory>
 #include <map>
 #include <functional>
+
+enum ReceiverType {WORKER,
+    STOREHOUSE};
+
 class IPackageReceiver
 {
 public:
     virtual void receive_package(Package&& p)= 0;
+    virtual ReceiverType get_receiver_type() = 0;
     virtual ElementID get_id() const = 0;
 };
 
@@ -20,6 +25,7 @@ public:
     Storehouse(ElementID id,std::unique_ptr<IPackageStockpile> d): d_(std::move(d)), id_(id) {}
     ElementID get_id() const;
     void receive_package(Package && p);
+    ReceiverType get_receiver_type(){ return ReceiverType::STOREHOUSE; };
 private:
     std::unique_ptr<IPackageStockpile> d_;
     ElementID id_;
@@ -52,6 +58,7 @@ private:
 class PackageSender
 {
 public:
+    //PackageSender(PackageSender&&)=default;
     void send_package();
     std::optional<Package> & get_sending_buffer();
     bool buffer_empty();
@@ -82,6 +89,7 @@ public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
     void do_work(Time t);
     void receive_package(Package && p);
+    ReceiverType get_receiver_type(){ return ReceiverType::WORKER; };
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
     ElementID get_id() const;
