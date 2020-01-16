@@ -1,11 +1,15 @@
+
+#include <simulation.hpp>
+
 #include "simulation.hpp"
-#include "types.hpp"
-#include "factory.hpp"
 
-void simulate(Factory &factory, TimeOffset d,std::function<void(Factory&,Time)> func) {})
-{
-    for(TimeOffset i=1;i<=d;i++)
-        {
 
-        }
+void simulate(Factory &factory, TimeOffset d, std::function<void(Factory &, Time)> func) {
+    for(TimeOffset time=1;time<=d;time++)
+    {
+        factory.do_deliveries(time);
+        factory.do_package_passing();
+        factory.do_work(time);
+        func(factory,time);
+    }
 }

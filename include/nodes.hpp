@@ -15,9 +15,14 @@ enum ReceiverType {WORKER,
 class IPackageReceiver
 {
 public:
+    using const_iterator = IPackageStockpile::const_iterator;
     virtual void receive_package(Package&& p)= 0;
     virtual ReceiverType get_receiver_type() = 0;
     virtual ElementID get_id() const = 0;
+    virtual const_iterator begin() const = 0;
+    virtual const_iterator end() const = 0;
+    virtual const_iterator cbegin() const = 0;
+    virtual const_iterator cend() const = 0;
 };
 
 class Storehouse: public IPackageReceiver
@@ -27,6 +32,11 @@ public:
     ElementID get_id() const;
     void receive_package(Package && p);
     ReceiverType get_receiver_type(){ return ReceiverType::STOREHOUSE; };
+
+    const_iterator begin() const { return d_->cbegin(); };
+    const_iterator end() const { return d_->cend();};
+    const_iterator cbegin() const { return d_->cbegin();};
+    const_iterator cend() const { return d_->cend();};
 private:
     std::unique_ptr<IPackageStockpile> d_;
     ElementID id_;
@@ -87,6 +97,8 @@ private:
 class Worker : public PackageSender, public IPackageReceiver
 {
 public:
+    using queue_t=std::unique_ptr<PackageQueue>;
+    
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> q);
     void do_work(Time t);
     void receive_package(Package && p);
@@ -95,6 +107,10 @@ public:
     Time get_package_processing_start_time();
     ElementID get_id() const;
 
+    const_iterator begin() const { return queue->cbegin(); };
+    const_iterator end() const { return queue->cend();};
+    const_iterator cbegin() const { return queue->cbegin();};
+    const_iterator cend() const { return queue->cend();};
 
 private:
     ElementID id_;
