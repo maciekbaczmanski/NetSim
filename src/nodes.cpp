@@ -22,6 +22,7 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
     IPackageReceiver* memory=r;
     double newsum=0.0;
     preferences_.erase(r);
+    if(!preferences_.empty()){
     for (const auto &pair : preferences_)
     {
         preferences_[pair.first]=1.0/preferences_.size();
@@ -31,7 +32,7 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
     if(newsum!=1.0)
     {
         preferences_[memory]=preferences_[memory]+1.0-newsum;
-    }
+    }}
 }
 
 IPackageReceiver* ReceiverPreferences::choose_receiver()

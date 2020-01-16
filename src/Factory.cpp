@@ -38,6 +38,7 @@ bool Factory::is_consistent() {
         return false;
     });
 
+
     return false;
 }
 
@@ -62,15 +63,36 @@ void Factory::do_work(Time time) {
 
 void Factory::remove_worker(ElementID id) {
 
-    for(auto it = Ramps.begin();it!=Ramps.end();it++){
-        auto ramp_prefs =
-    }
+    std::for_each(Ramps.begin(),Ramps.end(),[id](Ramp &ramp)
+    {
+    auto prefs=ramp.receiver_preferences_.get_preferences();
+        for(auto it=prefs.begin(); it!=prefs.end();it++)
+        {
+            if(it->first->get_id()==id)
+            {
+                ramp.receiver_preferences_.remove_receiver(it->first);
+            }
+        }
+    } );
+
 
     Workers.remove_by_id(id);
 }
 
 void Factory::remove_storehouse(ElementID id) {
 
+
+    std::for_each(Workers.begin(),Workers.end(),[id](Worker &worker)
+    {
+        auto prefs=worker.receiver_preferences_.get_preferences();
+        for(auto it=prefs.begin(); it!=prefs.end();it++)
+        {
+            if(it->first->get_id()==id)
+            {
+                worker.receiver_preferences_.remove_receiver(it->first);
+            }
+        }
+    } );
 
     Storehouses.remove_by_id(id);
 }
