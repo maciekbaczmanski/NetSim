@@ -3,7 +3,6 @@
 
 #include "Factory.hpp"
 
-enum node_color{NOT_VISITED,VISITED,VERIFIED};
 
 struct no_reachable_storehouse_error : public std::exception
 {
@@ -91,12 +90,6 @@ bool Factory::is_consistent() {
             });
 
     return consistant;
-}
-
-bool Factory::sender_has_reachable_storehouse(PackageSender* node){
-    ////TEMP
-    node = node;
-    return false;
 }
 
 void Factory::do_deliveries(Time time) {
