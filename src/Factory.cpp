@@ -1,7 +1,4 @@
-
-#include <Factory.hpp>
-
-#include "Factory.hpp"
+#include "factory.hpp"
 
 
 struct no_reachable_storehouse_error : public std::exception

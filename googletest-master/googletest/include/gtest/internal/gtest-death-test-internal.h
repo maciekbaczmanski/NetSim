@@ -140,7 +140,7 @@ class GTEST_API_ DeathTest {
 
 GTEST_DISABLE_MSC_WARNINGS_POP_()  //  4251
 
-// Factory interface for death tests.  May be mocked out for testing.
+// factory interface for death tests.  May be mocked out for testing.
 class DeathTestFactory {
  public:
   virtual ~DeathTestFactory() { }
