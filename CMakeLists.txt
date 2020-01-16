@@ -23,10 +23,11 @@ set(SOURCES_FILES_TESTS
         finaltest/test_Factory.cpp
         #finaltest/test_factory_io.cpp
         #finaltest/test_nodes.cpp
-        finaltest/test_package.cpp
-        finaltest/test_package_queue.cpp
+        #finaltest/test_package.cpp
+        #finaltest/test_package_queue.cpp
         #finaltest/test_simulate.cpp
-        finaltest/test_storage_types.cpp src/Factory.cpp include/Factory.hpp)
+        #finaltest/test_storage_types.cpp src/Factory.cpp include/Factory.hpp
+        )
 
 
 add_executable(NetSim__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} finaltest/main_gtest.cpp)

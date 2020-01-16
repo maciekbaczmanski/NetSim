@@ -2,6 +2,7 @@
 #define NETSIM_FACTORY_HPP
 
 #include "nodes.hpp"
+#include "types.hpp"
 #include <algorithm>
 #include <exception>
 
@@ -54,7 +55,8 @@ public:
 
     ////WORKER FUNCTIONS
     void add_worker(Worker &&node){ Workers.add(node); };
-    void remove_worker(ElementID id){ Workers.remove_by_id(id); };
+    //void remove_worker(ElementID id){ Workers.remove_by_id(id); };
+    void remove_worker(ElementID id);
     NodeCollection<Worker>::iterator find_worker_by_id(ElementID id){ return Workers.find_by_id(id); };
     NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id) const { return Workers.find_by_id(id); };
     NodeCollection<Worker>::const_iterator worker_cbegin(){ return Workers.cbegin(); };
@@ -63,7 +65,8 @@ public:
 
     ////STOREHOUSE FUNCTIONS
     void add_storehouse(Storehouse &&node){ Storehouses.add(node); };
-    void remove_storehouse(ElementID id){ Storehouses.remove_by_id(id); };
+    //void remove_storehouse(ElementID id){ Storehouses.remove_by_id(id); };
+    void remove_storehouse(ElementID id);
     NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id){ return Storehouses.find_by_id(id); };
     NodeCollection<Storehouse>::const_iterator find_storehouse_by_id(ElementID id) const { return Storehouses.find_by_id(id); };
     NodeCollection<Storehouse>::const_iterator storehouse_cbegin(){ return Storehouses.cbegin(); };

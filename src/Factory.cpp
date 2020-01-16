@@ -1,3 +1,6 @@
+
+#include <Factory.hpp>
+
 #include "Factory.hpp"
 
 enum node_color{NOT_VISITED,VISITED,VERIFIED};
@@ -55,4 +58,19 @@ void Factory::do_package_passing() {
 
 void Factory::do_work(Time time) {
     std::for_each(Workers.begin(),Workers.end(),[time](Worker &worker){ worker.do_work(time); });
+}
+
+void Factory::remove_worker(ElementID id) {
+
+    for(auto it = Ramps.begin();it!=Ramps.end();it++){
+        auto ramp_prefs =
+    }
+
+    Workers.remove_by_id(id);
+}
+
+void Factory::remove_storehouse(ElementID id) {
+
+
+    Storehouses.remove_by_id(id);
 }
