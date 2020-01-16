@@ -8,5 +8,5 @@ using size_type = unsigned int;
 using ProbabilityGenerator = std::function<double()>;
 using TimeOffset=unsigned int;
 using Time= unsigned int;
-// TODO: add Time, TimeOffset i ProbabilityGenerator
+
 #endif //NETSIM_TYPES_HPP
