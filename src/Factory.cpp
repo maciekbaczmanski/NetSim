@@ -51,12 +51,37 @@ bool Factory::is_consistent() {
                         atleastone = true;
                     }
                 }
-            }
+            }});
 
 
             if(!atleastone){return false;}
         });
 
+
+
+
+
+
+
+
+        std::for_each(Storehouses.begin(),Storehouses.end(),[this](Storehouse &storehouse)
+        {
+            auto id=storehouse.get_id();
+            bool atleastone=false;
+            std::for_each(Workers.begin(),Workers.end(),[id,&atleastone](Worker &worker)
+            {
+                auto prefs=worker.receiver_preferences_.get_preferences();
+                for(auto it=prefs.begin(); it!=prefs.end();it++)
+                {
+                    if(it->first->get_id()==id)
+                    {
+                        atleastone = true;
+                    }
+                }
+            } );
+
+                if(!atleastone){return false;}
+            });
 
 
 
@@ -90,7 +115,7 @@ bool Factory::is_consistent() {
 //    });
 
 
-    return false;
+    return true;
 }
 
 bool Factory::sender_has_reachable_storehouse(PackageSender* node){
