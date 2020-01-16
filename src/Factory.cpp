@@ -17,26 +17,77 @@ struct no_reachable_storehouse_error : public std::exception
 };
 
 bool Factory::is_consistent() {
+    if(Ramps.begin()==Ramps.end()){return false;}
+    if(Workers.begin()==Workers.end()){return false;}
+    if(Storehouses.begin()==Storehouses.end()){return false;}
 
-    std::map<PackageSender*, node_color > color;
-    ////MARK EVERY SENDER (RAMPS, WORKERS) AS NOT VISITED
-    std::for_each(Ramps.begin(),Ramps.end(),[&color](auto &sender){
-        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+    std::for_each(Ramps.begin(),Ramps.end(),[](Ramp &ramp)
+    {
+       auto prefs=ramp.receiver_preferences_.get_preferences();
+       if(prefs.empty()){return false;}
+    } );
 
-    std::for_each(Workers.begin(),Workers.end(),[&color](auto &sender){
-        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+    std::for_each(Workers.begin(),Workers.end(),[this](Worker &worker)
+    {
+        auto id=worker.get_id();
+        bool atleastone=false;
+        std::for_each(Ramps.begin(),Ramps.end(),[id,&atleastone](Ramp &ramp)
+        {
+            auto prefs=ramp.receiver_preferences_.get_preferences();
+            for(auto it=prefs.begin(); it!=prefs.end();it++)
+            {
+                if(it->first->get_id()==id)
+                {
+                    atleastone = true;
+                }
+            }
+        } );
 
-    std::for_each(Ramps.begin(),Ramps.end(),[this](auto &ramp){
-        try{
-            if(sender_has_reachable_storehouse(&ramp)){
-                return true;
+        std::for_each(Workers.begin(),Workers.end(),[id,&atleastone](Worker &worker) {
+            if(worker.get_id()!=id) {
+                auto prefs = worker.receiver_preferences_.get_preferences();
+                for (auto it = prefs.begin(); it != prefs.end(); it++) {
+                    if (it->first->get_id() == id) {
+                        atleastone = true;
+                    }
+                }
             }
 
-        }catch (no_reachable_storehouse_error &e){
-            return false;
-        }
-        return false;
-    });
+
+            if(!atleastone){return false;}
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    std::map<PackageSender*, node_color > color;
+//    ////MARK EVERY SENDER (RAMPS, WORKERS) AS NOT VISITED
+//    std::for_each(Ramps.begin(),Ramps.end(),[&color](auto &sender){
+//        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+//
+//    std::for_each(Workers.begin(),Workers.end(),[&color](auto &sender){
+//        color.emplace(std::make_pair(&sender,node_color::NOT_VISITED)); });
+//
+//    std::for_each(Ramps.begin(),Ramps.end(),[this](auto &ramp){
+//        try{
+//            if(sender_has_reachable_storehouse(&ramp)){
+//                return true;
+//            }
+//
+//        }catch (no_reachable_storehouse_error &e){
+//            return false;
+//        }
+//        return false;
+//    });
 
 
     return false;
